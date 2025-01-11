@@ -1,8 +1,9 @@
-title: दुतावास | Dutawas kei asdfasdf
-description: A starter template for a Jeykll site using the Just the Docs theme!
+title: दुतावास | Dutawas
+description: Online repository to document services provided by Embassay of Nepal in US.
+author: kshitu92
 theme: just-the-docs
 
-url: https://just-the-docs.github.io
+url: https://dutawas.com
 
 aux_links:
-  Template Repository: https://github.com/just-the-docs/just-the-docs-template
+  Template Repository: https://github.com/kshitu92/dutawas
