@@ -1,5 +1,5 @@
 # Use Ruby as base image
-FROM ruby:3.3-slim
+FROM ruby:3.3.6-slim
 
 # Install required dependencies
 RUN apt-get update && apt-get install -y \
