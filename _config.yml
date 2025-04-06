@@ -20,6 +20,9 @@ callouts:
   disclaimer:
     title: Disclaimer
     color: red
+  info:
+    title: Info
+    color: blue
 
 footer_content: |
   <p>Created and maintained by <a href="https://github.com/kshitu92/" target="_blank">Kshitu92</a> cuz यो मन त मेरो नेपाली हो |</p>
