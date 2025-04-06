@@ -4,7 +4,7 @@ layout: home
 nav_order: 1
 ---
 
-दुतावास (Dutawas) is a community-powered platform dedicated to solving the information gap faced by Nepali citizens related to Embassary of Nepal in the United States. 
+दुतावास (Dutawas) is a community-powered platform dedicated to solving the information gap faced by Nepali citizens related to Embassay of Nepal in the United States. 
 
 
 {: .warning }
