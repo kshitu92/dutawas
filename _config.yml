@@ -10,3 +10,5 @@ aux_links:
 
 mermaid:
   version: ">=11.4.1"
+
+incremental: true
