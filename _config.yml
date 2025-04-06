@@ -6,7 +6,7 @@ theme: just-the-docs
 url: https://dutawas.com
 
 aux_links:
-  Template Repository: https://github.com/kshitu92/dutawas
+  Github: https://github.com/kshitu92/dutawas
 
 mermaid:
   version: ">=11.4.1"
@@ -20,3 +20,6 @@ callouts:
   disclaimer:
     title: Disclaimer
     color: red
+
+footer_content: |
+  <p>Created and maintained by <a href="https://github.com/kshitu92/" target="_blank">Kshitu92</a> cuz यो मन त मेरो नेपाली हो |</p>
