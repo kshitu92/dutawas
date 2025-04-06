@@ -12,3 +12,11 @@ mermaid:
   version: ">=11.4.1"
 
 incremental: true
+
+callouts:
+  warning:
+    title: Warning
+    color: red
+  disclaimer:
+    title: Disclaimer
+    color: red

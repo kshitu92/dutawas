@@ -6,19 +6,8 @@ nav_order: 1
 
 दुतावास (Dutawas) is a community-powered platform dedicated to solving the information gap faced by Nepali citizens related to Embassary of Nepal in the United States. 
 
-For many Nepali in the United States, accessing reliable information about embassy services, procedures, and requirements has been a persistent challenge. Important information is often:
-- Scattered across multiple websites
-- Outdated or not regularly maintained
-- Difficult to find when needed most
-- Not available in a centralized, easily accessible format
 
-## Our Solution
-
-This platform serves as a comprehensive, community-maintained repository of information about the Embassy of Nepal in the USA. We aim to:
-- Centralize all embassy-related information in one place
-- Keep information current and accurate
-- Provide clear, easy-to-understand documentation
-- Make embassy services more accessible to the Nepali community
-- Enable community members to contribute and help maintain the information
+{: .disclaimer }
+This is an independent, community-maintained resource and is not affiliated with the Government of Nepal or its diplomatic missions. While we strive to maintain accurate and up-to-date information by monitoring official government sources, please refer to the official Government of Nepal websites and diplomatic missions for authoritative information.
 
 This initiative is created & maintained by [Kshitu](https://github.com/kshitu92)
