@@ -55,3 +55,11 @@ This page is used to plan and track the feature development of Dutawas. Making i
   - [ ] Contribution guide
   - [ ] Contributors information
   - [ ] Code of conduct
+
+## Development Practices
+- [ ] Protect `main` branch:
+- [ ] PR process:
+  - [ ] format
+  - [ ] checklist
+  - [ ] review
+  
