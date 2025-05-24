@@ -6,7 +6,6 @@ import os
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
-import time
 from github import Github
 import re
 import logging
@@ -47,13 +46,43 @@ def update_file_content(content, changes, current_date):
 def delete_old_branch(repo, branch_prefix, consulate_id):
     """Delete old update branches for a consulate"""
     try:
-        branches = repo.get_git_refs("heads/")
-        for branch in branches:
-            if branch.ref.startswith(f"refs/heads/{branch_prefix}{consulate_id}-"):
-                logger.info(f"Deleting old branch: {branch.ref}")
-                branch.delete()
+        # Fix: Use the correct method signature for get_git_refs
+        refs = repo.get_git_matching_refs(f"heads/{branch_prefix}{consulate_id}-")
+        for ref in refs:
+            logger.info(f"Deleting old branch: {ref.ref}")
+            ref.delete()
     except Exception as e:
         logger.warning(f"Failed to delete old branches: {e}")
+
+def create_commit_and_push(repo, file, message, content, branch):
+    """Create a commit and push changes"""
+    try:
+        # Get the main branch's latest commit
+        main_ref = repo.get_git_ref("heads/main")
+        base_tree = repo.get_git_tree(main_ref.object.sha)
+        
+        # Create blob for the new file content
+        blob = repo.create_git_blob(content, "utf-8")
+        element = {"path": file.path, "mode": "100644", "type": "blob", "sha": blob.sha}
+        
+        # Create tree with the new blob
+        tree = repo.create_git_tree([element], base_tree)
+        
+        # Create commit
+        parent = repo.get_git_commit(main_ref.object.sha)
+        commit = repo.create_git_commit(message, tree, [parent])
+        
+        # Create or update branch reference
+        try:
+            ref = repo.create_git_ref(f"refs/heads/{branch}", commit.sha)
+        except:
+            ref = repo.get_git_ref(f"heads/{branch}")
+            ref.edit(commit.sha, force=True)
+            
+        return True
+    except Exception as e:
+        logger.error(f"Error in create_commit_and_push: {e}")
+        return False
 
 def main():
     """Update consulate information"""
@@ -80,35 +109,28 @@ def main():
                         updated_content = update_file_content(content, changes, current_date)
                         
                         if updated_content != content:
-                            # Include timestamp in branch name to make it unique
+                            # Include timestamp in branch name
                             timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
                             branch_prefix = "update-"
                             branch = f"{branch_prefix}{consulate_id}-{timestamp}"
                             
-                            # Delete any existing update branches for this consulate
+                            # Delete any existing update branches
                             delete_old_branch(repo, branch_prefix, consulate_id)
                             
-                            # Create new branch
-                            main_ref = repo.get_git_ref("heads/main")
-                            repo.create_git_ref(ref=f"refs/heads/{branch}", sha=main_ref.object.sha)
-                            
-                            # Update file in new branch
-                            repo.update_file(
-                                info['file'],
-                                f"Update {consulate_id} consulate information",
-                                updated_content,
-                                file.sha,
-                                branch=branch
-                            )
-                            
-                            # Create pull request
-                            repo.create_pull(
-                                title=f"Update {consulate_id} consulate information",
-                                body=f"Updates found:\n" + "\n".join([f"- {k}: {v}" for k, v in changes.items()]),
-                                head=branch,
-                                base="main"
-                            )
-                            logger.info(f"Created PR for {consulate_id}")
+                            # Create commit and push changes
+                            if create_commit_and_push(repo, file, f"Update {consulate_id} consulate information", updated_content, branch):
+                                try:
+                                    # Try to create pull request
+                                    repo.create_pull(
+                                        title=f"Update {consulate_id} consulate information",
+                                        body=f"Updates found:\n" + "\n".join([f"- {k}: {v}" for k, v in changes.items()]),
+                                        head=branch,
+                                        base="main"
+                                    )
+                                    logger.info(f"Created PR for {consulate_id}")
+                                except Exception as e:
+                                    logger.warning(f"Could not create PR, but changes are pushed to branch {branch}: {e}")
+                                    logger.info("Please create the pull request manually from the branch.")
                     except Exception as e:
                         logger.error(f"Error updating {consulate_id}: {e}")
                 else:
