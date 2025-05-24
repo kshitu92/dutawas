@@ -10,9 +10,9 @@ parent: Consulates
 ## Location and Contact Information
 
 *Address:*  
-16300 Redmond Way NE  
-Suite #201  
-Redmond, WA 98052  
+Bellevue Technology Center  
+2018 156th Ave NE, Suite 126  
+Bellevue, WA 98007  
 United States of America
 
 *Phone:*  
@@ -85,10 +85,8 @@ The Office of Nepal Consulate in Washington State serves the following areas:
 
 ## Sources
 
-- [Office of Nepal Consulate, Washington State Official Website](https://nepalconsulate.org) - Last checked: May 2025
+- [Office of Nepal Consulate, Washington State Official Website](https://nepalconsulate.org) - Last checked: April 2024
   - Contact Information
   - Services
   - Notary Services
-  - Consular Service Camps
-
-*Page last updated: May 23, 2025* 
+  - Consular Service Camps 
