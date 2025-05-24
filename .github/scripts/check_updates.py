@@ -68,8 +68,13 @@ def main():
         if not github_token:
             raise ValueError("GITHUB_TOKEN not set")
         
+        # Get repository from GitHub environment variables
+        repository = os.environ.get('GITHUB_REPOSITORY')
+        if not repository:
+            raise ValueError("GITHUB_REPOSITORY not set")
+        
         g = Github(github_token)
-        repo = g.get_repo("kshitijlohani/dutawas")
+        repo = g.get_repo(repository)
         current_date = datetime.now().strftime("%B %d, %Y")
         
         for consulate_id, info in CONSULATES.items():
