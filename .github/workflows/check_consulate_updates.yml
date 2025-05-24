@@ -30,7 +30,7 @@ jobs:
 
     - name: Run update check
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        HAKUKALEJI: ${{ secrets.HAKUKALEJI }}
       run: |
         cd .github/scripts
         python check_updates.py
