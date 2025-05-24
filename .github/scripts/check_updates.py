@@ -1,98 +1,122 @@
+#!/usr/bin/env python3
+"""
+Script to monitor consulate websites for changes in contact information and create pull requests for updates.
+"""
 import os
+import time
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 from github import Github
 import re
+import logging
+from config import CONSULATES
 
-def get_website_content(url):
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        return BeautifulSoup(response.text, 'html.parser')
-    except Exception as e:
-        print(f"Error fetching {url}: {e}")
-        return None
+# Set up logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
-def check_address_changes(soup):
+def get_website_content(url: str):
+    """Fetch website content with retries"""
+    headers = {'User-Agent': 'Mozilla/5.0 (compatible; ConsulateUpdater/1.0; +https://dutawas.com)'}
+    for attempt in range(3):  # Try 3 times
+        try:
+            response = requests.get(url, headers=headers, timeout=30)
+            response.raise_for_status()
+            return BeautifulSoup(response.text, 'html.parser')
+        except Exception as e:
+            if attempt == 2:  # Last attempt
+                logger.error(f"Failed to fetch {url}: {e}")
+                return None
+            time.sleep(5)  # Wait before retry
+
+def check_updates(soup, consulate_info):
+    """Extract updates from website content"""
     changes = {}
-    # Look for address in the content
-    address_text = soup.find(text=re.compile('Redmond Way'))
-    if address_text:
-        current_address = address_text.strip()
-        # Compare with stored address
-        with open('consulates/washington-state.md', 'r') as f:
-            content = f.read()
-            if current_address not in content:
-                changes['address'] = current_address
+    for field, config in consulate_info['selectors'].items():
+        pattern = config['pattern']
+        for element in soup.stripped_strings:
+            text = element.strip()
+            if re.search(pattern, text, re.IGNORECASE):
+                changes[field] = text
+                break
     return changes
 
-def create_branch_and_pr(changes):
-    g = Github(os.environ['GITHUB_TOKEN'])
-    repo = g.get_repo(os.environ['GITHUB_REPOSITORY'])
+def update_file_content(content, changes, current_date):
+    """Update markdown file with new information"""
+    updated = content
+    for field, new_value in changes.items():
+        pattern = rf"\*{field.title()}:\*\s*.*?(?=\n\n|\n\*|$)"
+        replacement = f"*{field.title()}:*  \n{new_value}"
+        updated = re.sub(pattern, replacement, updated, flags=re.IGNORECASE | re.DOTALL)
     
-    # Create a new branch
-    base = repo.get_branch("main")
-    branch_name = f"auto-update-{datetime.now().strftime('%Y%m%d')}"
-    try:
-        repo.create_git_ref(f"refs/heads/{branch_name}", base.commit.sha)
-    except:
-        print(f"Branch {branch_name} already exists")
-        return
-
-    # Update file
-    file_path = 'consulates/washington-state.md'
-    file = repo.get_contents(file_path, ref="main")
-    content = file.decoded_content.decode()
-    
-    # Make updates
-    if 'address' in changes:
-        # Update address in content
-        content = re.sub(
-            r'\*Address:\*.*?United States of America',
-            f'*Address:*\n{changes["address"]}\nUnited States of America',
-            content,
-            flags=re.DOTALL
-        )
-    
-    # Update timestamp
-    current_date = datetime.now().strftime('%B %d, %Y')
-    content = re.sub(
-        r'\*Page last updated:.*\*',
-        f'*Page last updated: {current_date}*',
-        content
+    # Update date
+    updated = re.sub(
+        r"\*Page last updated:.*\*",
+        f"*Page last updated: {current_date}*",
+        updated
     )
-
-    # Commit file
-    repo.update_file(
-        file_path,
-        f"Auto-update consulate information {current_date}",
-        content,
-        file.sha,
-        branch=branch_name
-    )
-
-    # Create pull request
-    pr = repo.create_pull(
-        title=f"Auto-update: Consulate Information Changes {current_date}",
-        body="Automated update of consulate information based on website changes.",
-        head=branch_name,
-        base="main"
-    )
-    
-    print(f"Created PR: {pr.html_url}")
+    return updated
 
 def main():
-    url = "https://nepalconsulate.org"
-    soup = get_website_content(url)
-    if not soup:
-        return
-    
-    changes = check_address_changes(soup)
-    if changes:
-        create_branch_and_pr(changes)
-    else:
-        print("No changes detected")
+    """Main function to check and update consulate information"""
+    try:
+        github_token = os.environ.get('GITHUB_TOKEN')
+        if not github_token:
+            raise ValueError("GITHUB_TOKEN not set")
+        
+        g = Github(github_token)
+        repo = g.get_repo("kshitijlohani/dutawas")
+        current_date = datetime.now().strftime("%B %d, %Y")
+        
+        for consulate_id, info in CONSULATES.items():
+            logger.info(f"Checking {consulate_id}")
+            
+            soup = get_website_content(info['url'])
+            if not soup:
+                continue
+            
+            changes = check_updates(soup, info)
+            if not changes:
+                logger.info(f"No updates for {consulate_id}")
+                continue
+            
+            try:
+                file = repo.get_contents(info['file'])
+                content = file.decoded_content.decode('utf-8')
+                updated_content = update_file_content(content, changes, current_date)
+                
+                if updated_content != content:
+                    branch = f"update-{consulate_id}-{datetime.now().strftime('%Y%m%d')}"
+                    source = repo.get_branch("main")
+                    repo.create_git_ref(f"refs/heads/{branch}", source.commit.sha)
+                    
+                    repo.update_file(
+                        info['file'],
+                        f"Update {consulate_id} consulate information",
+                        updated_content,
+                        file.sha,
+                        branch=branch
+                    )
+                    
+                    repo.create_pull(
+                        title=f"Update {consulate_id} consulate information",
+                        body=f"Updates found:\n" + "\n".join([f"- {k}: {v}" for k, v in changes.items()]),
+                        head=branch,
+                        base="main"
+                    )
+                    logger.info(f"Created PR for {consulate_id}")
+            
+            except Exception as e:
+                logger.error(f"Error updating {consulate_id}: {e}")
+                continue
+
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        raise
 
 if __name__ == "__main__":
     main()

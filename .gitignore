@@ -16,3 +16,10 @@ vendor/
 
 # Let github action produce its own lockfile
 Gemfile.lock
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# .github/scripts/__pycache__
