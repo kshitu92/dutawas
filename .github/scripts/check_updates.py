@@ -46,9 +46,9 @@ def update_file_content(content, changes, current_date):
 def main():
     """Update consulate information"""
     try:
-        github_token = os.environ.get('HAKUKALEJI')
+        github_token = os.environ.get('GITHUB_TOKEN')
         if not github_token:
-            raise ValueError("HAKUKALEJI token not set")
+            raise ValueError("GITHUB_TOKEN not set")
         
         repository = os.environ.get('GITHUB_REPOSITORY')
         if not repository:
@@ -69,9 +69,12 @@ def main():
                         
                         if updated_content != content:
                             branch = f"update-{consulate_id}-{datetime.now().strftime('%Y%m%d')}"
-                            source = repo.get_branch("main")
-                            repo.create_git_ref(f"refs/heads/{branch}", source.commit.sha)
                             
+                            # Create branch using low-level API to avoid permission issues
+                            main_ref = repo.get_git_ref("heads/main")
+                            repo.create_git_ref(ref=f"refs/heads/{branch}", sha=main_ref.object.sha)
+                            
+                            # Update file in new branch
                             repo.update_file(
                                 info['file'],
                                 f"Update {consulate_id} consulate information",
@@ -80,6 +83,7 @@ def main():
                                 branch=branch
                             )
                             
+                            # Create pull request
                             repo.create_pull(
                                 title=f"Update {consulate_id} consulate information",
                                 body=f"Updates found:\n" + "\n".join([f"- {k}: {v}" for k, v in changes.items()]),
