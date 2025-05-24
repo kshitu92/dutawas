@@ -10,13 +10,10 @@ parent: Consulates
 ## Location and Contact Information
 
 *Address:*  
-Bellevue Technology Center  
-2018 156th Ave NE, Suite 126  
-Bellevue, WA 98007  
-United States of America
++1 206-324-9000, 16300 Redmond Way NE Suite #201, Redmond WA 98052
 
 *Phone:*  
-+1 (206) 324-9000
++1 206-324-9000, 16300 Redmond Way NE Suite #201, Redmond WA 98052
 
 *Email:*  
 info@nepalconsulate.org
