@@ -6,6 +6,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+import time
 from github import Github
 import re
 import logging
@@ -43,6 +44,17 @@ def update_file_content(content, changes, current_date):
         updated = re.sub(pattern, f"*{field.title()}:*  \n{new_value}", updated, flags=re.IGNORECASE | re.DOTALL)
     return re.sub(r"\*Page last updated:.*\*", f"*Page last updated: {current_date}*", updated)
 
+def delete_old_branch(repo, branch_prefix, consulate_id):
+    """Delete old update branches for a consulate"""
+    try:
+        branches = repo.get_git_refs("heads/")
+        for branch in branches:
+            if branch.ref.startswith(f"refs/heads/{branch_prefix}{consulate_id}-"):
+                logger.info(f"Deleting old branch: {branch.ref}")
+                branch.delete()
+    except Exception as e:
+        logger.warning(f"Failed to delete old branches: {e}")
+
 def main():
     """Update consulate information"""
     try:
@@ -68,9 +80,15 @@ def main():
                         updated_content = update_file_content(content, changes, current_date)
                         
                         if updated_content != content:
-                            branch = f"update-{consulate_id}-{datetime.now().strftime('%Y%m%d')}"
+                            # Include timestamp in branch name to make it unique
+                            timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+                            branch_prefix = "update-"
+                            branch = f"{branch_prefix}{consulate_id}-{timestamp}"
                             
-                            # Create branch using low-level API to avoid permission issues
+                            # Delete any existing update branches for this consulate
+                            delete_old_branch(repo, branch_prefix, consulate_id)
+                            
+                            # Create new branch
                             main_ref = repo.get_git_ref("heads/main")
                             repo.create_git_ref(ref=f"refs/heads/{branch}", sha=main_ref.object.sha)
                             
