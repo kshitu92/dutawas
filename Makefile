@@ -14,6 +14,11 @@ build:
 	bundle install
 	bundle exec jekyll build
 
+# Test the site
+.PHONY: test
+test: build
+	bundle exec ruby test/test_site.rb
+
 # Serve the Jekyll site locally
 .PHONY: serve
 serve:
@@ -46,6 +51,11 @@ setup:
 	gem install bundler
 	bundle install
 
+# CI checks
+.PHONY: ci-local
+ci-local:
+	docker run --rm -v "$(PWD):/app" -w /app ruby:3.3 bash -c "rm -f Gemfile.lock && bundle install && bundle exec jekyll build && bundle exec ruby test/test_site.rb"
+
 # Help target
 .PHONY: help
 help:
@@ -53,7 +63,9 @@ help:
 	@echo "  build         - Build the Jekyll site locally"
 	@echo "  serve         - Serve the Jekyll site locally"
 	@echo "  clean         - Clean the Jekyll build"
+	@echo "  test          - Run tests"
 	@echo "  docker-build  - Build Docker image"
 	@echo "  docker-run    - Run Docker container"
 	@echo "  docker-stop   - Stop and remove Docker container"
-	@echo "  setup        - Install dependencies"
+	@echo "  setup         - Install dependencies"
+	@echo "  ci-local      - Run CI checks locally"
