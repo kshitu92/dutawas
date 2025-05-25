@@ -43,47 +43,6 @@ def update_file_content(content, changes, current_date):
         updated = re.sub(pattern, f"*{field.title()}:*  \n{new_value}", updated, flags=re.IGNORECASE | re.DOTALL)
     return re.sub(r"\*Page last updated:.*\*", f"*Page last updated: {current_date}*", updated)
 
-def delete_old_branch(repo, branch_prefix, consulate_id):
-    """Delete old update branches for a consulate"""
-    try:
-        # Fix: Use the correct method signature for get_git_refs
-        refs = repo.get_git_matching_refs(f"heads/{branch_prefix}{consulate_id}-")
-        for ref in refs:
-            logger.info(f"Deleting old branch: {ref.ref}")
-            ref.delete()
-    except Exception as e:
-        logger.warning(f"Failed to delete old branches: {e}")
-
-def create_commit_and_push(repo, file, message, content, branch):
-    """Create a commit and push changes"""
-    try:
-        # Get the main branch's latest commit
-        main_ref = repo.get_git_ref("heads/main")
-        base_tree = repo.get_git_tree(main_ref.object.sha)
-        
-        # Create blob for the new file content
-        blob = repo.create_git_blob(content, "utf-8")
-        element = {"path": file.path, "mode": "100644", "type": "blob", "sha": blob.sha}
-        
-        # Create tree with the new blob
-        tree = repo.create_git_tree([element], base_tree)
-        
-        # Create commit
-        parent = repo.get_git_commit(main_ref.object.sha)
-        commit = repo.create_git_commit(message, tree, [parent])
-        
-        # Create or update branch reference
-        try:
-            ref = repo.create_git_ref(f"refs/heads/{branch}", commit.sha)
-        except:
-            ref = repo.get_git_ref(f"heads/{branch}")
-            ref.edit(commit.sha, force=True)
-            
-        return True
-    except Exception as e:
-        logger.error(f"Error in create_commit_and_push: {e}")
-        return False
-
 def main():
     """Update consulate information"""
     try:
@@ -109,28 +68,42 @@ def main():
                         updated_content = update_file_content(content, changes, current_date)
                         
                         if updated_content != content:
-                            # Include timestamp in branch name
-                            timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
-                            branch_prefix = "update-"
-                            branch = f"{branch_prefix}{consulate_id}-{timestamp}"
+                            branch = f"update-{consulate_id}-{datetime.now().strftime('%Y%m%d')}"
                             
-                            # Delete any existing update branches
-                            delete_old_branch(repo, branch_prefix, consulate_id)
+                            # Get the latest commit from main branch
+                            main_branch = repo.get_branch("main")
+                            main_sha = main_branch.commit.sha
+
+                            # Create a new branch from main
+                            repo.create_git_ref(ref=f"refs/heads/{branch}", sha=main_sha)
+
+                            # Delete old branches if they exist
+                            try:
+                                repo.get_git_ref(f"heads/update-{consulate_id}-{datetime.now().strftime('%Y%m%d%H%M%S')}").delete()
+                            except:
+                                pass
+                            try:
+                                repo.get_git_ref(f"heads/update-{consulate_id}-{datetime.now().strftime('%Y%m%d')}").delete()
+                            except:
+                                pass
+
+                            # Update file in new branch
+                            repo.update_file(
+                                path=info['file'],
+                                message=f"Update {consulate_id} consulate information",
+                                content=updated_content,
+                                sha=file.sha,
+                                branch=branch
+                            )
                             
-                            # Create commit and push changes
-                            if create_commit_and_push(repo, file, f"Update {consulate_id} consulate information", updated_content, branch):
-                                try:
-                                    # Try to create pull request
-                                    repo.create_pull(
-                                        title=f"Update {consulate_id} consulate information",
-                                        body=f"Updates found:\n" + "\n".join([f"- {k}: {v}" for k, v in changes.items()]),
-                                        head=branch,
-                                        base="main"
-                                    )
-                                    logger.info(f"Created PR for {consulate_id}")
-                                except Exception as e:
-                                    logger.warning(f"Could not create PR, but changes are pushed to branch {branch}: {e}")
-                                    logger.info("Please create the pull request manually from the branch.")
+                            # Create pull request
+                            repo.create_pull(
+                                title=f"Update {consulate_id} consulate information",
+                                body=f"Updates found:\n" + "\n".join([f"- {k}: {v}" for k, v in changes.items()]),
+                                head=branch,
+                                base="main"
+                            )
+                            logger.info(f"Created PR for {consulate_id}")
                     except Exception as e:
                         logger.error(f"Error updating {consulate_id}: {e}")
                 else:
