@@ -3,8 +3,8 @@ title: Dallas
 layout: default
 nav_order: 4
 parent: Consulates
+permalink: /consulates/dallas/
 ---
-
 # Consulate General of Nepal in Dallas
 
 ## Location and Contact Information

@@ -3,8 +3,8 @@ title: About
 layout: default
 nav_order: 3
 has_children: false
+permalink: /about/
 ---
-
 For many Nepali in the United States, accessing reliable information about embassy services, procedures, and requirements has been a persistent challenge. Important information is often:
 - Scattered across multiple websites
 - Outdated or not regularly maintained

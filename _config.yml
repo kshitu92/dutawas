@@ -5,13 +5,15 @@ theme: just-the-docs
 
 url: https://dutawas.com
 
+permalink: pretty
+
 aux_links:
   Github: https://github.com/kshitu92/dutawas
 
 mermaid:
   version: ">=11.4.1"
 
-incremental: true
+incremental: false
 
 callouts:
   warning:

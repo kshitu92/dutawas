@@ -1,15 +1,15 @@
 - title: Home
   url: /
 - title: Consulates
-  url: /consulates
+  url: /consulates/
   children:
     - title: New York
-      url: /consulates/new-york.html
+      url: /consulates/new-york/
     - title: Washington
-      url: /consulates/washington-state.html
+      url: /consulates/washington-state/
     - title: Boston
-      url: /consulates/boston.html
+      url: /consulates/boston/
     - title: Dallas
-      url: /consulates/dallas.html
+      url: /consulates/dallas/
 - title: About
-  url: /about
+  url: /about/

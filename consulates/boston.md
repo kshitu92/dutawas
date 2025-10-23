@@ -3,8 +3,8 @@ title: Boston
 layout: default
 nav_order: 3
 parent: Consulates
+permalink: /consulates/boston/
 ---
-
 # Consulate General of Nepal in Boston
 
 ## Location and Contact Information

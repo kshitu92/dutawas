@@ -3,8 +3,8 @@ title: Washington
 layout: default
 nav_order: 2
 parent: Consulates
+permalink: /consulates/washington-state/
 ---
-
 # Office of Nepal Consulate in Washington State
 
 ## Location and Contact Information
