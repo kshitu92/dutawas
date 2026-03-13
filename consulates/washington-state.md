@@ -22,7 +22,8 @@ United States of America
 info@nepalconsulate.org
 
 *Office Hours:*  
-[To be confirmed - please check website for current hours]
+Please check the official website or call ahead for current hours.  
+Appointments are recommended for all services.
 
 ## Services Provided
 
@@ -85,8 +86,7 @@ The Office of Nepal Consulate in Washington State serves the following areas:
 
 ## Sources
 
-- [Office of Nepal Consulate, Washington State Official Website](https://nepalconsulate.org) - Last checked: April 2024
-  - Contact Information
+- [Office of Nepal Consulate, Washington State Official Website](https://nepalconsulate.org) - Last checked: March 2026
+  - Contact Information (address, phone, and email confirmed unchanged)
   - Services
-  - Notary Services
   - Consular Service Camps 

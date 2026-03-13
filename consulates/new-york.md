@@ -19,10 +19,11 @@ United States of America
 +1 (212) 370-3989
 
 *Email:*  
-info@nepalconsulateny.org
+cgnnewyork@mofa.gov.np
 
 *Office Hours:*  
-Monday to Friday: 9:30 AM - 4:30 PM  
+Monday to Friday: 9:00 AM - 5:00 PM  
+Consular Services Window: 9:30 AM - 2:30 PM  
 (Closed on Saturdays, Sundays, and Public Holidays)
 
 ## Services Provided
@@ -47,6 +48,8 @@ The Consulate General of Nepal in New York serves the following states:
 - Vermont
 - New Hampshire
 - Maine
+
+Residents of all other US states should contact the Embassy of Nepal in Washington, DC.
 
 ## Important Information
 
@@ -83,8 +86,8 @@ The Consulate General of Nepal in New York serves the following states:
 
 ## Sources
 
-- [Consulate General of Nepal, New York Official Website](https://nyc.nepalconsulate.gov.np) - Last checked: April 2024
-  - Contact Information
+- [Consulate General of Nepal, New York Official Website](https://nyc.nepalconsulate.gov.np) - Last checked: March 2026
+  - Contact Information (email updated to cgnnewyork@mofa.gov.np)
   - Services
-  - Jurisdiction
-  - Office Hours 
+  - Jurisdiction (verified: CT, ME, MA, NH, NJ, NY, PA, RI, VT)
+  - Office Hours (updated: 9:00 AM–5:00 PM, Consular: 9:30 AM–2:30 PM) 
