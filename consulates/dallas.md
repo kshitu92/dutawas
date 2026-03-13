@@ -32,6 +32,7 @@ Lunch Break: 1:00 PM - 2:00 PM
 ## Services Provided
 
 - Passport Service
+- Visa Service
 - Consular Attestation
 - Power of Attorney
 - One Way Travel Document
@@ -74,4 +75,4 @@ Jurisdictional coverage for the Consulate General of Nepal in Dallas is being fi
 
 ## Sources
 
-- [Consulate General of Nepal, Dallas Official Website](https://dls.nepalconsulate.gov.np) - Last checked: October 2025 (Contact details, Office Hours, Services overview and application guidance)
+- [Consulate General of Nepal, Dallas Official Website](https://dls.nepalconsulate.gov.np) - Last checked: March 2026 (Contact details, Office Hours, Services overview and application guidance; Visa Service and NRN ID Card service confirmed active)

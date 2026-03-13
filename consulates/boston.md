@@ -5,43 +5,26 @@ nav_order: 3
 parent: Consulates
 permalink: /consulates/boston/
 ---
-# Consulate General of Nepal in Boston
+# Consulate General of Nepal — Boston
 
-## Location and Contact Information
-
-*Address:*  
-[To be added]
-
-*Phone:*  
-[To be added]
-
-*Email:*  
-[To be added]
-
-*Office Hours:*  
-[To be added]
-
-## Services Provided
-
-- Passport Services
-- Visa Services
-- Consular Services
-- Other Services
+> **Note (as of March 2026):** There is currently no established Consulate General of Nepal in Boston. Massachusetts residents should contact the **[Consulate General of Nepal in New York](/consulates/new-york/)**, which has jurisdiction over Massachusetts.
 
 ## Jurisdiction
 
-The Consulate General of Nepal in Boston serves the following states:
-- Massachusetts
-- [Additional states to be added]
+Massachusetts (along with Connecticut, Maine, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, and Vermont) falls under the jurisdiction of the **Consulate General of Nepal in New York**.
 
-## Important Information
+For all consular services, including passport renewal, visa, NRN ID card, and document attestation, residents of Massachusetts should visit or contact:
 
-[To be added]
+**Consulate General of Nepal, New York**  
+820 Second Avenue, Suite 202  
+New York, NY 10017  
+Phone: +1 (212) 370-3988  
+Email: cgnnewyork@mofa.gov.np  
+Website: [nyc.nepalconsulate.gov.np](https://nyc.nepalconsulate.gov.np)
 
-## Forms and Documents
+The New York consulate also holds periodic **Consular Service Camps** in New England states, including New Hampshire and Connecticut. Check the [New York consulate website](https://nyc.nepalconsulate.gov.np) for upcoming camp dates.
 
-[To be added]
+## Sources
 
-## Frequently Asked Questions
-
-[To be added] 
+- [Consulate General of Nepal, New York — e-Passport page](https://nyc.nepalconsulate.gov.np/pages/e-passport-1) — jurisdiction states confirmed: March 2026
+- [Consulate General of Nepal, New York Official Website](https://nyc.nepalconsulate.gov.np) — Last checked: March 2026
