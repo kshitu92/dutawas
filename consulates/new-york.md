@@ -7,6 +7,8 @@ permalink: /consulates/new-york/
 ---
 # Consulate General of Nepal in New York
 
+*Information last verified on: March 15, 2026 at 12:05 AM CDT via automated monitoring*
+
 ## Location and Contact Information
 
 *Address:*  
@@ -86,7 +88,7 @@ Residents of all other US states should contact the Embassy of Nepal in Washingt
 
 ## Sources
 
-- [Consulate General of Nepal, New York Official Website](https://nyc.nepalconsulate.gov.np) - Last checked: March 2026
+- [Consulate General of Nepal, New York Official Website](https://nyc.nepalconsulate.gov.np)
   - Contact Information (email updated to cgnnewyork@mofa.gov.np)
   - Services
   - Jurisdiction (verified: CT, ME, MA, NH, NJ, NY, PA, RI, VT)

@@ -7,6 +7,8 @@ permalink: /consulates/dallas/
 ---
 # Consulate General of Nepal in Dallas
 
+*Information last verified on: March 15, 2026 at 12:05 AM CDT via automated monitoring*
+
 ## Location and Contact Information
 
 *Address:*  
@@ -75,4 +77,4 @@ Jurisdictional coverage for the Consulate General of Nepal in Dallas is being fi
 
 ## Sources
 
-- [Consulate General of Nepal, Dallas Official Website](https://dls.nepalconsulate.gov.np) - Last checked: March 2026 (Contact details, Office Hours, Services overview and application guidance; Visa Service and NRN ID Card service confirmed active)
+- [Consulate General of Nepal, Dallas Official Website](https://dls.nepalconsulate.gov.np) (Contact details, Office Hours, Services overview and application guidance; Visa Service and NRN ID Card service confirmed active)
