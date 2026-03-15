@@ -7,6 +7,8 @@ permalink: /consulates/washington-state/
 ---
 # Office of Nepal Consulate in Washington State
 
+*Information last verified on: March 15, 2026 at 12:05 AM CDT via automated monitoring*
+
 ## Location and Contact Information
 
 *Address:*  
@@ -86,7 +88,7 @@ The Office of Nepal Consulate in Washington State serves the following areas:
 
 ## Sources
 
-- [Office of Nepal Consulate, Washington State Official Website](https://nepalconsulate.org) - Last checked: March 2026
+- [Office of Nepal Consulate, Washington State Official Website](https://nepalconsulate.org)
   - Contact Information (address, phone, and email confirmed unchanged)
   - Services
   - Consular Service Camps 

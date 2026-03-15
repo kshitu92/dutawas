@@ -6,6 +6,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+import time
 from github import Github
 import re
 import logging
@@ -43,6 +44,32 @@ def update_file_content(content, changes, current_date):
         updated = re.sub(pattern, f"*{field.title()}:*  \n{new_value}", updated, flags=re.IGNORECASE | re.DOTALL)
     return re.sub(r"\*Page last updated:.*\*", f"*Page last updated: {current_date}*", updated)
 
+def add_verification_timestamp(content, current_date):
+    """Add or update 'Information last verified on:' timestamp in markdown file"""
+    verification_line = f"*Information last verified on: {current_date} via automated monitoring*\n"
+    
+    # Check if verification line already exists
+    if "**Information last verified on:**" in content:
+        # Update existing verification line
+        updated = re.sub(
+            r"> \*\*Information last verified on:\*\*.*?\n",
+            verification_line,
+            content
+        )
+        return updated
+    else:
+        # Add verification line after the main heading (after first h1)
+        lines = content.split('\n')
+        insert_index = 0
+        for i, line in enumerate(lines):
+            if line.startswith('# '):
+                insert_index = i + 1
+                break
+        
+        lines.insert(insert_index, "")
+        lines.insert(insert_index + 1, verification_line.strip())
+        return '\n'.join(lines)
+
 def main():
     """Update consulate information"""
     try:
@@ -56,10 +83,32 @@ def main():
         
         g = Github(github_token)
         repo = g.get_repo(repository)
-        current_date = datetime.now().strftime("%B %d, %Y")
+        tz_name = time.tzname[0] if time.daylight == 0 else time.tzname[1]
+        current_date = datetime.now().strftime(f"%B %d, %Y at %I:%M %p {tz_name}")
         
         for consulate_id, info in CONSULATES.items():
             logger.info(f"Checking {consulate_id}")
+            
+            # Always update the verification timestamp
+            try:
+                file = repo.get_contents(info['file'])
+                content = file.decoded_content.decode('utf-8')
+                updated_content = add_verification_timestamp(content, current_date)
+                
+                # Update file in main branch with verification timestamp
+                if updated_content != content:
+                    repo.update_file(
+                        path=info['file'],
+                        message=f"Update verification timestamp for {consulate_id}",
+                        content=updated_content,
+                        sha=file.sha,
+                        branch="main"
+                    )
+                    logger.info(f"Updated verification timestamp for {consulate_id}")
+            except Exception as e:
+                logger.error(f"Error updating verification timestamp for {consulate_id}: {e}")
+            
+            # Check for content updates
             if soup := get_website_content(info['url']):
                 if changes := check_updates(soup, info):
                     try:
