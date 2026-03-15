@@ -2,7 +2,7 @@
 title: Washington
 layout: default
 nav_order: 2
-parent: Consulates
+parent: United States
 permalink: /consulates/washington-state/
 ---
 # Office of Nepal Consulate in Washington State
