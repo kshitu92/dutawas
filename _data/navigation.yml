@@ -11,5 +11,15 @@
       url: /consulates/boston/
     - title: Dallas
       url: /consulates/dallas/
+    - title: Canberra
+      url: /consulates/canberra/
+    - title: Sydney
+      url: /consulates/sydney/
+    - title: Western Australia
+      url: /consulates/western-australia/
+    - title: South Australia
+      url: /consulates/south-australia/
+    - title: Victoria
+      url: /consulates/victoria/
 - title: About
   url: /about/
