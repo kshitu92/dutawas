@@ -5,7 +5,7 @@ from __future__ import annotations
 import os
 import sys
 from types import SimpleNamespace
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 import pytest
 from bs4 import BeautifulSoup
@@ -15,246 +15,259 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import check_updates as sut
 
+# ---------------------------------------------------------------------------
+# Shared test constants
+# ---------------------------------------------------------------------------
+EXAMPLE_URL = "https://example.com"
+EXAMPLE_HTML = "<html><body><p>Hello</p></body></html>"
+CURRENT_DATE = "March 16, 2026"
+BRANCH_DATE_STAMP = "20260316"
+FILE_SHA = "file-sha"
+MAIN_SHA = "abc123"
+CONSULATE_FILE = "consulates/united-states/new-york.md"
+CONSULATE_ID_NY = "new-york"
+CONSULATE_ID_SYDNEY = "sydney"
+BRANCH_NAME_NY = f"update-{CONSULATE_ID_NY}-{BRANCH_DATE_STAMP}"
+BRANCH_NAME_SYDNEY = f"update-{CONSULATE_ID_SYDNEY}-{BRANCH_DATE_STAMP}"
+SIMPLE_INFO = {"url": EXAMPLE_URL, "selectors": {}, "file": "consulates/x.md"}
+NY_INFO = {
+    "url": EXAMPLE_URL,
+    "file": CONSULATE_FILE,
+    "selectors": {"address": {"pattern": "Address"}},
+}
+ORIGINAL_MARKDOWN = (
+    "## Contact\n\n"
+    "*Address:*  \nOld Address\n\n"
+    "*Phone:*  \nOld Phone\n\n"
+    "*Page last updated: January 01, 2025*\n"
+)
+OLD_FILE_CONTENT = b"*Address:*  \nOld\n\n*Page last updated: Jan 01, 2025*"
+FAKE_CONSULATES = {
+    "a": {"url": "u", "file": "f", "selectors": {}},
+    "b": {"url": "u", "file": "f", "selectors": {}},
+}
 
-def test_require_env_returns_value(monkeypatch):
-    monkeypatch.setenv("REQUIRED_VAR", "present")
-
-    assert sut._require_env("REQUIRED_VAR") == "present"
-
-
-def test_require_env_raises_when_missing(monkeypatch):
-    monkeypatch.delenv("MISSING_VAR", raising=False)
-
-    with pytest.raises(ValueError, match="MISSING_VAR not set"):
-        sut._require_env("MISSING_VAR")
+EXPECTED_ADDRESS = "Address: 123 Main St Seattle WA 98001"
+EXPECTED_PHONE = "Call us: +1 (206) 555-1212"
+EXPECTED_PHONE_FALLBACK = "Call us fallback: +1 (425) 555-0000"
+NEW_ADDRESS = "New Address"
+NEW_MARKDOWN = "new markdown"
+UNCHANGED_MARKDOWN = "same markdown"
+UPDATE_BRANCH = "update-branch"
+SYDNEY_CHANGES = {"phone": "+61 2 1234 5678", "email": "info@example.com"}
 
 
-def test_get_website_content_success(monkeypatch):
-    response = Mock()
-    response.text = "<html><body><p>Hello</p></body></html>"
-    response.raise_for_status = Mock()
+class TestRequireEnv:
+    @patch.dict(os.environ, {"REQUIRED_VAR": "present"})
+    def test_returns_value(self):
+        assert sut._require_env("REQUIRED_VAR") == "present"
 
-    get_mock = Mock(return_value=response)
-    monkeypatch.setattr(sut.requests, "get", get_mock)
-
-    soup = sut.get_website_content("https://example.com")
-
-    assert isinstance(soup, BeautifulSoup)
-    assert "Hello" in list(soup.stripped_strings)
-    get_mock.assert_called_once_with(
-        "https://example.com",
-        headers={"User-Agent": sut.USER_AGENT},
-        timeout=sut.REQUEST_TIMEOUT_SECONDS,
-    )
+    def test_raises_when_missing(self):
+        with patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("MISSING_VAR", None)
+            with pytest.raises(ValueError, match="MISSING_VAR not set"):
+                sut._require_env("MISSING_VAR")
 
 
-def test_get_website_content_failure_returns_none(monkeypatch):
-    monkeypatch.setattr(sut.requests, "get", Mock(side_effect=RuntimeError("boom")))
+class TestGetWebsiteContent:
+    def setUp(self):
+        self.response = Mock()
+        self.response.text = EXAMPLE_HTML
+        self.response.raise_for_status = Mock()
 
-    assert sut.get_website_content("https://example.com") is None
+    @patch.object(sut.requests, "get")
+    def test_success(self, get_mock):
+        self.setUp()
+        get_mock.return_value = self.response
+
+        soup = sut.get_website_content(EXAMPLE_URL)
+
+        assert isinstance(soup, BeautifulSoup)
+        assert "Hello" in list(soup.stripped_strings)
+        get_mock.assert_called_once_with(
+            EXAMPLE_URL,
+            headers={"User-Agent": sut.USER_AGENT},
+            timeout=sut.REQUEST_TIMEOUT_SECONDS,
+        )
+
+    @patch.object(sut.requests, "get", side_effect=RuntimeError("boom"))
+    def test_failure_returns_none(self, _get_mock):
+        assert sut.get_website_content(EXAMPLE_URL) is None
 
 
-def test_check_updates_returns_first_match_per_field():
-    html = """
-    <div>
-      <p>Address: 123 Main St Seattle WA 98001</p>
-      <p>Call us: +1 (206) 555-1212</p>
-      <p>Call us fallback: +1 (425) 555-0000</p>
-    </div>
-    """
-    soup = BeautifulSoup(html, "html.parser")
-    info = {
-        "selectors": {
-            "address": {"pattern": r"Seattle"},
-            "phone": {"pattern": r"\(206\)\s*555-1212|\(425\)\s*555-0000"},
+class TestCheckUpdates:
+    def setUp(self):
+        html = f"""
+        <div>
+          <p>{EXPECTED_ADDRESS}</p>
+          <p>{EXPECTED_PHONE}</p>
+          <p>{EXPECTED_PHONE_FALLBACK}</p>
+        </div>
+        """
+        self.soup = BeautifulSoup(html, "html.parser")
+        self.info = {
+            "selectors": {
+                "address": {"pattern": r"Seattle"},
+                "phone": {"pattern": r"\(206\)\s*555-1212|\(425\)\s*555-0000"},
+            }
         }
-    }
 
-    changes = sut.check_updates(soup, info)
+    def test_returns_first_match_per_field(self):
+        self.setUp()
 
-    assert changes == {
-        "address": "Address: 123 Main St Seattle WA 98001",
-        "phone": "Call us: +1 (206) 555-1212",
-    }
+        changes = sut.check_updates(self.soup, self.info)
 
-
-def test_update_file_content_updates_matching_fields_and_page_date():
-    original = (
-        "## Contact\n\n"
-        "*Address:*  \nOld Address\n\n"
-        "*Phone:*  \nOld Phone\n\n"
-        "*Page last updated: January 01, 2025*\n"
-    )
-
-    updated = sut.update_file_content(
-        original,
-        {"address": "New Address", "phone": "New Phone"},
-        "March 16, 2026",
-    )
-
-    assert "*Address:*  \nNew Address" in updated
-    assert "*Phone:*  \nNew Phone" in updated
-    assert "*Page last updated: March 16, 2026*" in updated
+        assert changes == {
+            "address": EXPECTED_ADDRESS,
+            "phone": EXPECTED_PHONE,
+        }
 
 
-def test_delete_branch_if_exists_deletes_ref():
-    ref = Mock()
-    repo = Mock()
-    repo.get_git_ref.return_value = ref
+class TestUpdateFileContent:
+    def test_updates_matching_fields_and_page_date(self):
+        updated = sut.update_file_content(
+            ORIGINAL_MARKDOWN,
+            {"address": "New Address", "phone": "New Phone"},
+            CURRENT_DATE,
+        )
 
-    sut._delete_branch_if_exists(repo, "my-branch")
-
-    repo.get_git_ref.assert_called_once_with("heads/my-branch")
-    ref.delete.assert_called_once_with()
-
-
-def test_create_update_branch_deletes_then_creates(monkeypatch):
-    repo = Mock()
-    repo.get_branch.return_value = SimpleNamespace(commit=SimpleNamespace(sha="abc123"))
-
-    delete_mock = Mock()
-    monkeypatch.setattr(sut, "_delete_branch_if_exists", delete_mock)
-
-    class _FixedDateTime:
-        @staticmethod
-        def now():
-            class _Now:
-                @staticmethod
-                def strftime(fmt):
-                    return "20260316"
-
-            return _Now()
-
-    monkeypatch.setattr(sut, "datetime", _FixedDateTime)
-
-    branch = sut._create_update_branch(repo, "new-york")
-
-    assert branch == "update-new-york-20260316"
-    delete_mock.assert_called_once_with(repo, "update-new-york-20260316")
-    repo.create_git_ref.assert_called_once_with(
-        ref="refs/heads/update-new-york-20260316",
-        sha="abc123",
-    )
+        assert "*Address:*  \nNew Address" in updated
+        assert "*Phone:*  \nNew Phone" in updated
+        assert f"*Page last updated: {CURRENT_DATE}*" in updated
 
 
-def test_open_pull_request_builds_expected_payload():
-    repo = Mock()
+class TestDeleteBranchIfExists:
+    def setUp(self):
+        self.ref = Mock()
+        self.repo = Mock()
+        self.repo.get_git_ref.return_value = self.ref
 
-    sut._open_pull_request(
-        repo,
-        consulate_id="sydney",
-        changes={"phone": "+61 2 1234 5678", "email": "info@example.com"},
-        branch_name="update-sydney-20260316",
-    )
+    def test_deletes_ref(self):
+        self.setUp()
 
-    repo.create_pull.assert_called_once()
-    kwargs = repo.create_pull.call_args.kwargs
-    assert kwargs["title"] == "Update sydney consulate information"
-    assert kwargs["head"] == "update-sydney-20260316"
-    assert kwargs["base"] == sut.BASE_BRANCH
-    assert "- phone: +61 2 1234 5678" in kwargs["body"]
-    assert "- email: info@example.com" in kwargs["body"]
+        sut._delete_branch_if_exists(self.repo, "my-branch")
+
+        self.repo.get_git_ref.assert_called_once_with("heads/my-branch")
+        self.ref.delete.assert_called_once_with()
 
 
-def test_process_consulate_stops_when_no_page(monkeypatch):
-    repo = Mock()
-    info = {"url": "https://example.com", "selectors": {}, "file": "consulates/x.md"}
+class TestCreateUpdateBranch:
+    def setUp(self):
+        self.repo = Mock()
+        self.repo.get_branch.return_value = SimpleNamespace(
+            commit=SimpleNamespace(sha=MAIN_SHA),
+        )
 
-    monkeypatch.setattr(sut, "get_website_content", Mock(return_value=None))
+    @patch.object(sut, "datetime")
+    @patch.object(sut, "_delete_branch_if_exists")
+    def test_deletes_then_creates(self, delete_mock, datetime_mock):
+        self.setUp()
+        datetime_mock.now.return_value.strftime.return_value = BRANCH_DATE_STAMP
 
-    sut._process_consulate(repo, "x", info, "March 16, 2026")
+        branch = sut._create_update_branch(self.repo, CONSULATE_ID_NY)
 
-    repo.get_contents.assert_not_called()
-
-
-def test_process_consulate_stops_when_no_changes(monkeypatch):
-    repo = Mock()
-    info = {"url": "https://example.com", "selectors": {}, "file": "consulates/x.md"}
-
-    monkeypatch.setattr(sut, "get_website_content", Mock(return_value=object()))
-    monkeypatch.setattr(sut, "check_updates", Mock(return_value={}))
-
-    sut._process_consulate(repo, "x", info, "March 16, 2026")
-
-    repo.get_contents.assert_not_called()
-
-
-def test_process_consulate_full_flow(monkeypatch):
-    file_obj = SimpleNamespace(
-        decoded_content=b"*Address:*  \nOld\n\n*Page last updated: Jan 01, 2025*",
-        sha="file-sha",
-    )
-    repo = Mock()
-    repo.get_contents.return_value = file_obj
-
-    info = {
-        "url": "https://example.com",
-        "file": "consulates/united-states/new-york.md",
-        "selectors": {"address": {"pattern": "Address"}},
-    }
-
-    monkeypatch.setattr(sut, "get_website_content", Mock(return_value=object()))
-    monkeypatch.setattr(sut, "check_updates", Mock(return_value={"address": "New Address"}))
-    monkeypatch.setattr(sut, "update_file_content", Mock(return_value="new markdown"))
-    monkeypatch.setattr(sut, "_create_update_branch", Mock(return_value="update-branch"))
-    open_pr_mock = Mock()
-    monkeypatch.setattr(sut, "_open_pull_request", open_pr_mock)
-
-    sut._process_consulate(repo, "new-york", info, "March 16, 2026")
-
-    repo.update_file.assert_called_once_with(
-        path="consulates/united-states/new-york.md",
-        message="Update new-york consulate information",
-        content="new markdown",
-        sha="file-sha",
-        branch="update-branch",
-    )
-    open_pr_mock.assert_called_once_with(
-        repo,
-        "new-york",
-        {"address": "New Address"},
-        "update-branch",
-    )
+        assert branch == BRANCH_NAME_NY
+        delete_mock.assert_called_once_with(self.repo, BRANCH_NAME_NY)
+        self.repo.create_git_ref.assert_called_once_with(
+            ref=f"refs/heads/{BRANCH_NAME_NY}",
+            sha=MAIN_SHA,
+        )
 
 
-def test_process_consulate_skips_when_content_unchanged(monkeypatch):
-    content = "same markdown"
-    file_obj = SimpleNamespace(decoded_content=content.encode("utf-8"), sha="file-sha")
-    repo = Mock()
-    repo.get_contents.return_value = file_obj
+class TestOpenPullRequest:
+    def setUp(self):
+        self.repo = Mock()
 
-    info = {
-        "url": "https://example.com",
-        "file": "consulates/united-states/new-york.md",
-        "selectors": {"address": {"pattern": "Address"}},
-    }
+    def test_builds_expected_payload(self):
+        self.setUp()
 
-    monkeypatch.setattr(sut, "get_website_content", Mock(return_value=object()))
-    monkeypatch.setattr(sut, "check_updates", Mock(return_value={"address": "Still same"}))
-    monkeypatch.setattr(sut, "update_file_content", Mock(return_value=content))
+        sut._open_pull_request(
+            self.repo,
+            consulate_id=CONSULATE_ID_SYDNEY,
+            changes=SYDNEY_CHANGES,
+            branch_name=BRANCH_NAME_SYDNEY,
+        )
 
-    create_branch_mock = Mock()
-    monkeypatch.setattr(sut, "_create_update_branch", create_branch_mock)
-
-    sut._process_consulate(repo, "new-york", info, "March 16, 2026")
-
-    create_branch_mock.assert_not_called()
-    repo.update_file.assert_not_called()
+        self.repo.create_pull.assert_called_once()
+        kwargs = self.repo.create_pull.call_args.kwargs
+        assert kwargs["title"] == f"Update {CONSULATE_ID_SYDNEY} consulate information"
+        assert kwargs["head"] == BRANCH_NAME_SYDNEY
+        assert kwargs["base"] == sut.BASE_BRANCH
+        for field, value in SYDNEY_CHANGES.items():
+            assert f"- {field}: {value}" in kwargs["body"]
 
 
-def test_main_processes_all_consulates(monkeypatch):
-    fake_repo = Mock()
-    fake_client = Mock()
-    fake_client.get_repo.return_value = fake_repo
+class TestProcessConsulate:
+    def setUp(self):
+        self.repo = Mock()
 
-    monkeypatch.setenv("GITHUB_TOKEN", "token")
-    monkeypatch.setenv("GITHUB_REPOSITORY", "owner/repo")
-    monkeypatch.setattr(sut, "Github", Mock(return_value=fake_client))
-    monkeypatch.setattr(sut, "CONSULATES", {"a": {"url": "u", "file": "f", "selectors": {}}, "b": {"url": "u", "file": "f", "selectors": {}}})
+    @patch.object(sut, "get_website_content", return_value=None)
+    def test_stops_when_no_page(self, _gwc_mock):
+        self.setUp()
 
-    process_mock = Mock()
-    monkeypatch.setattr(sut, "_process_consulate", process_mock)
+        sut._process_consulate(self.repo, "x", SIMPLE_INFO, CURRENT_DATE)
 
-    sut.main()
+        self.repo.get_contents.assert_not_called()
 
-    assert process_mock.call_count == 2
+    @patch.object(sut, "check_updates", return_value={})
+    @patch.object(sut, "get_website_content")
+    def test_stops_when_no_changes(self, _gwc_mock, _cu_mock):
+        self.setUp()
+
+        sut._process_consulate(self.repo, "x", SIMPLE_INFO, CURRENT_DATE)
+
+        self.repo.get_contents.assert_not_called()
+
+    @patch.object(sut, "_open_pull_request")
+    @patch.object(sut, "_create_update_branch", return_value=UPDATE_BRANCH)
+    @patch.object(sut, "update_file_content", return_value=NEW_MARKDOWN)
+    @patch.object(sut, "check_updates", return_value={"address": NEW_ADDRESS})
+    @patch.object(sut, "get_website_content")
+    def test_full_flow(self, _gwc_mock, _cu_mock, _ufc_mock, _cub_mock, open_pr_mock):
+        self.setUp()
+        file_obj = SimpleNamespace(decoded_content=OLD_FILE_CONTENT, sha=FILE_SHA)
+        self.repo.get_contents.return_value = file_obj
+
+        sut._process_consulate(self.repo, CONSULATE_ID_NY, NY_INFO, CURRENT_DATE)
+
+        self.repo.update_file.assert_called_once_with(
+            path=CONSULATE_FILE,
+            message=f"Update {CONSULATE_ID_NY} consulate information",
+            content=NEW_MARKDOWN,
+            sha=FILE_SHA,
+            branch=UPDATE_BRANCH,
+        )
+        open_pr_mock.assert_called_once_with(
+            self.repo,
+            CONSULATE_ID_NY,
+            {"address": NEW_ADDRESS},
+            UPDATE_BRANCH,
+        )
+
+    @patch.object(sut, "_create_update_branch")
+    @patch.object(sut, "update_file_content", return_value=UNCHANGED_MARKDOWN)
+    @patch.object(sut, "check_updates", return_value={"address": "Still same"})
+    @patch.object(sut, "get_website_content")
+    def test_skips_when_content_unchanged(self, _gwc_mock, _cu_mock, _ufc_mock, create_branch_mock):
+        self.setUp()
+        file_obj = SimpleNamespace(decoded_content=UNCHANGED_MARKDOWN.encode("utf-8"), sha=FILE_SHA)
+        self.repo.get_contents.return_value = file_obj
+
+        sut._process_consulate(self.repo, CONSULATE_ID_NY, NY_INFO, CURRENT_DATE)
+
+        create_branch_mock.assert_not_called()
+        self.repo.update_file.assert_not_called()
+
+
+class TestMain:
+    @patch.object(sut, "_process_consulate")
+    @patch.object(sut, "CONSULATES", FAKE_CONSULATES)
+    @patch.object(sut, "Github")
+    @patch.dict(os.environ, {"GITHUB_TOKEN": "token", "GITHUB_REPOSITORY": "owner/repo"})
+    def test_processes_all_consulates(self, github_mock, process_mock):
+        fake_repo = Mock()
+        github_mock.return_value.get_repo.return_value = fake_repo
+
+        sut.main()
+
+        assert process_mock.call_count == 2
