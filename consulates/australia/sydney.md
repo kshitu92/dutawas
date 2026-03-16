@@ -9,6 +9,7 @@ permalink: /consulates/sydney/
 
 ## Location and Contact Information
 
+*Address:*  
 Consulate of Nepal to New South Wales (Honorary Consulate)  
 Suite 2, Level 5, 263 Clarence Street  
 Sydney, NSW 2000  
