@@ -5,7 +5,7 @@ nav_order: 2
 has_children: true
 permalink: /consulates/
 ---
-# Consulates and Missions of Nepal
+# Consulates of Nepal in the United States and Australia
 
 This section provides detailed information about Nepal's consular and mission offices in the United States and Australia. Each office serves specific regions and provides different services to the Nepali community.
 
@@ -23,4 +23,4 @@ This section provides detailed information about Nepal's consular and mission of
  - [Western Australia](/consulates/western-australia/)
  - [South Australia](/consulates/south-australia/)
  - [Victoria](/consulates/victoria/)
- 
+
