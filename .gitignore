@@ -23,3 +23,7 @@ __pycache__/
 *$py.class
 
 # .github/scripts/__pycache__
+CLAUDE_CONTEXT.md
+CONTRIBUTION_PLAN.md
+.DS_Store
+.ruby-version
