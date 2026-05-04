@@ -5,7 +5,9 @@ nav_order: 2
 parent: Consulates
 permalink: /consulates/washington-state/
 ---
-# Office of Nepal Consulate in Washington State
+# Office of the Honorary Consulate of Nepal in Washington State
+
+The Office of the Honorary Consulate of Nepal in Washington State is a non-profit, volunteer mission accredited by the Government of Nepal. Mr. A.C. Sherpa has served as Honorary Consul since 2016 and was elevated to Honorary Consul General in 2024.
 
 ## Location and Contact Information
 
@@ -22,8 +24,8 @@ United States of America
 info@nepalconsulate.org
 
 *Office Hours:*  
-Please check the official website or call ahead for current hours.  
-Appointments are recommended for all services.
+Monday to Friday: 10:00 AM - 4:00 PM (Pacific Time)  
+Visits are by appointment only.
 
 ## Services Provided
 
@@ -31,51 +33,47 @@ Appointments are recommended for all services.
 - Official Visa Services
 - Business Visa Services
 - Tourist Visa Services
-- Public Notarial Services
-- Document Processing
-- Consular Services
+- Document Attestation
+- Affidavit and Notary Services
+- Passport Renewal and Emergency Travel Documents for Nepali citizens
+- Mobile Consular Service Camps
 
 ## Jurisdiction
 
-The Office of Nepal Consulate in Washington State serves the following areas:
+The Honorary Consulate primarily serves the following area:
 - Washington State
-- [Additional areas to be confirmed]
+
+Residents outside Washington State should contact the Embassy of Nepal in Washington, DC or their nearest honorary consulate.
 
 ## Important Information
 
-- Public Notarial Service: Authorized by Washington state Huckleberry Notary Bonding, Inc.
-- Document Requirements: All documents require involvement parties and Washington state ID card or passport
-- Notary Fee: $15 per document
-- Consular Service Camps: Regular service camps are organized (e.g., May 30th - June 3rd, 2024)
+- Honorary Consulate Status: This is an honorary, volunteer-run mission rather than a career consulate.
+- Appointments: Visits are handled by appointment during business hours.
+- Mobile Consular Camps: Regular outreach and consular service camps are organized in Washington State and neighboring areas.
 
 ## Forms and Documents
 
-- Online Appointment Form
-- Visa Application Forms
-  - Diplomatic Visa
-  - Official Visa
-  - Business Visa
-  - Tourist Visa
-- Notary Service Documents
-- Consular Service Documents
+- [Visa Application Portal](https://nepaliport.immigration.gov.np/)
+- [Honorary Consulate About Page](https://nepalconsulate.org/about)
+- [Honorary Consul General Profile](https://nepalconsulate.org/about/honorary-consul/)
+- [Contact Page](https://nepalconsulate.org/contact-us)
 
 ## Frequently Asked Questions
 
 1. How do I schedule an appointment?
-   - Appointments can be scheduled through the consulate's website
-   - Walk-in services may be available during consular service camps
+   - Contact the consulate through the official website or email to arrange an appointment
+   - Mobile consular camps may provide additional service dates outside Bellevue
 
 2. What documents are required for notary services?
-   - Washington state ID card or passport
-   - Original documents to be notarized
-   - $15 fee per document
+   - Requirements vary by service
+   - Check the official website or confirm by email before your appointment
 
 3. What are the visa processing times?
    - Processing times vary by visa type
-   - Check the website for current processing times
+   - Use the official visa application portal and confirm current processing guidance with the consulate
 
 4. Are there any upcoming consular service camps?
-   - Regular service camps are organized
+   - Regular mobile consular service camps are organized
    - Check the website for upcoming camp dates and locations
 
 ## Additional Resources
@@ -86,7 +84,11 @@ The Office of Nepal Consulate in Washington State serves the following areas:
 
 ## Sources
 
-- [Office of Nepal Consulate, Washington State Official Website](https://nepalconsulate.org) - Last checked: March 2026
-  - Contact Information (address, phone, and email confirmed unchanged)
-  - Services
-  - Consular Service Camps 
+- [Office of Nepal Consulate, Washington State Official Website](https://nepalconsulate.org) - Last checked: May 2026
+  - Contact Information and service overview
+- [About the Honorary Consulate](https://nepalconsulate.org/about) - Last checked: May 2026
+  - Office hours, jurisdiction, and mission status
+- [Honorary Consul General profile](https://nepalconsulate.org/about/honorary-consul/) - Last checked: May 2026
+  - Leadership and mission background
+- [FAQ](https://nepalconsulate.org/faq) - Last checked: May 2026
+  - Appointment and service guidance
