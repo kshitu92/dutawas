@@ -2,7 +2,7 @@
 title: Dallas
 layout: default
 nav_order: 4
-parent: Consulates
+parent: United States
 permalink: /consulates/dallas/
 ---
 # Consulate General of Nepal in Dallas
