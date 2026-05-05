@@ -7,6 +7,8 @@ permalink: /consulates/dallas/
 ---
 # Consulate General of Nepal in Dallas
 
+The Consulate General of Nepal in Dallas was established on **July 8, 2025**, following a Government of Nepal decision of January 10, 2025.
+
 ## Location and Contact Information
 
 *Address:*  
@@ -24,37 +26,48 @@ consular@nepalconsulatedallas.org (Document attestation and consular queries)
 secretary@nepalconsulatedallas.org (Power of Attorney)
 
 *Office Hours:*  
-Monday to Friday: 9:00 AM - 5:00 PM  
+Please check the official office-time page for the latest general office hours.  
 Consular Attestation Window: 10:00 AM - 12:30 PM  
-Passport Application: By appointment (as scheduled)  
-Lunch Break: 1:00 PM - 2:00 PM
+Passport Application: By appointment only
 
 ## Services Provided
 
 - Passport Service
-- Visa Service
+- Visa Service (ETA / tourist visa support)
 - Consular Attestation
 - Power of Attorney
 - One Way Travel Document
 - NRN Identity Card
+- Renunciation of Nepali Citizenship
 
 ## Jurisdiction
 
-Jurisdictional coverage for the Consulate General of Nepal in Dallas is being finalized. Please contact the consulate for the latest guidance on supported states.
+The Consulate General of Nepal in Dallas serves the following states:
+- Texas
+- Oklahoma
+- Arkansas
+- Louisiana
+- New Mexico
+- Colorado
+- Kansas
+- Mississippi
 
 ## Important Information
 
 - Use the dedicated service emails to route general, passport, consular, and power of attorney inquiries to the correct team.
 - Passport appointments must be scheduled in advance; arrive at the booked time slot.
 - Consular attestation services are processed during the 10:00 AM - 12:30 PM window.
-- Office operations pause for lunch between 1:00 PM and 2:00 PM.
+- Tourist visa applications are handled through the official online ETA system before consular follow-up.
+- Most consular payments are accepted by cashier's check or money order only, payable to **CONSULATE GENERAL OF NEPAL DALLAS**.
 
 ## Forms and Documents
 
 - [E-Passport Online Application Portal](https://emrtds.nepalpassport.gov.np/)
+- [Online Visa Application Portal](https://nepaliport-new.immigration.gov.np/online-visa-missionManage/application)
 - [Consular Attestation Guidance](https://dls.nepalconsulate.gov.np/pages/consular-authentication-6/)
 - [Power of Attorney Instructions](https://dls.nepalconsulate.gov.np/pages/power-of-attorney-7/)
-- [NRN Identity Card Information](https://dls.nepalconsulate.gov.np/pages/non-resident-identification-card-9/)
+- [NRN Identity Card Information](https://dls.nepalconsulate.gov.np/pages/non-resident-nepali-identity-card/)
+- [Renunciation of Nepali Citizenship](https://dls.nepalconsulate.gov.np/pages/renunciation-of-nepalese-citizenship-11/)
 
 ## Frequently Asked Questions
 
@@ -71,8 +84,19 @@ Jurisdictional coverage for the Consulate General of Nepal in Dallas is being fi
    - The attestation counter operates from 10:00 AM to 12:30 PM on business days.
 
 4. Does the consulate close for lunch?
-   - Yes, the office observes a lunch break from 1:00 PM to 2:00 PM.
+   - Check the official office-time page for the latest general office hours before visiting.
 
 ## Sources
 
-- [Consulate General of Nepal, Dallas Official Website](https://dls.nepalconsulate.gov.np) - Last checked: March 2026 (Contact details, Office Hours, Services overview and application guidance; Visa Service and NRN ID Card service confirmed active)
+- [Consulate General of Nepal, Dallas Official Website](https://dls.nepalconsulate.gov.np) - Last checked: May 2026
+  - Contact details and service overview
+- [Consulate General of Nepal, Dallas — Introduction](https://dls.nepalconsulate.gov.np/pages/introduction-2) - Last checked: May 2026
+  - Establishment date and 8-state jurisdiction
+- [Consulate General of Nepal, Dallas — Contact page](https://dls.nepalconsulate.gov.np/pages/contact/) - Last checked: May 2026
+  - Address, phone, and service emails
+- [Consulate General of Nepal, Dallas — Visa Service](https://dls.nepalconsulate.gov.np/pages/visa-service-10/) - Last checked: May 2026
+  - ETA visa process, fees, and consular service window
+- [Consulate General of Nepal, Dallas — NRN Identity Card](https://dls.nepalconsulate.gov.np/pages/non-resident-nepali-identity-card/) - Last checked: May 2026
+  - Correct NRN resource link
+- [Consulate General of Nepal, Dallas — Renunciation of Nepali Citizenship](https://dls.nepalconsulate.gov.np/pages/renunciation-of-nepalese-citizenship-11/) - Last checked: May 2026
+  - Renunciation service availability
