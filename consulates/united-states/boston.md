@@ -7,6 +7,8 @@ permalink: /consulates/boston/
 ---
 # Consulate General of Nepal — Boston
 
+*Information last verified on: March 15, 2026 at 12:05 AM CDT via automated monitoring*
+
 > **Note (as of May 2026):** There is currently no established Consulate General of Nepal in Boston. Massachusetts residents should contact the **[Consulate General of Nepal in New York](/consulates/new-york/)**, which has jurisdiction over Massachusetts.
 
 ## Jurisdiction

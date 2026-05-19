@@ -7,6 +7,8 @@ permalink: /consulates/washington-state/
 ---
 # Office of the Honorary Consulate of Nepal in Washington State
 
+*Information last verified on: March 15, 2026 at 12:05 AM CDT via automated monitoring*
+
 The Office of the Honorary Consulate of Nepal in Washington State is a non-profit, volunteer mission accredited by the Government of Nepal. Mr. A.C. Sherpa has served as Honorary Consul since 2016 and was elevated to Honorary Consul General in 2024.
 
 ## Location and Contact Information

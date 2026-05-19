@@ -7,6 +7,8 @@ permalink: /consulates/new-york/
 ---
 # Consulate General of Nepal in New York
 
+*Information last verified on: March 15, 2026 at 12:05 AM CDT via automated monitoring*
+
 ## Location and Contact Information
 
 *Address:*  

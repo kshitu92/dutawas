@@ -7,6 +7,8 @@ permalink: /consulates/dallas/
 ---
 # Consulate General of Nepal in Dallas
 
+*Information last verified on: March 15, 2026 at 12:05 AM CDT via automated monitoring*
+
 The Consulate General of Nepal in Dallas was established on **July 8, 2025**, following a Government of Nepal decision of January 10, 2025.
 
 ## Location and Contact Information
