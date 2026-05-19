@@ -8,8 +8,15 @@ Dutawas serves as a centralized platform for Nepali citizens and visitors to acc
 
 ## Development Setup
 
+Prerequisites:
+
+- Ruby 3.3.x (see [.ruby-version](.ruby-version))
+- Bundler 2.x
+
 1. Clone the repository `git clone git@github.com:kshitu92/dutawas.git`
-2. Then either `make serve`  or `bundle exec jekyll serve`
+2. Install Bundler for your active Ruby: `gem install bundler`
+3. Install dependencies: `bundle install`
+4. Start the site: `make serve` or `bundle exec jekyll serve`
 
 ## Like my effort ?
 

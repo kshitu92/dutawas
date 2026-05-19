@@ -2,7 +2,7 @@
 title: Boston
 layout: default
 nav_order: 3
-parent: Consulates
+parent: United States
 permalink: /consulates/boston/
 ---
 # Consulate General of Nepal — Boston

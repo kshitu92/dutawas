@@ -2,7 +2,7 @@
 title: New York
 layout: default
 nav_order: 1
-parent: Consulates
+parent: United States
 permalink: /consulates/new-york/
 ---
 # Consulate General of Nepal in New York
