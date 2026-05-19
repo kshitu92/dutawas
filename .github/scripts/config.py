@@ -1,7 +1,7 @@
 CONSULATES = {
     'washington-state': {
         'url': 'https://nepalconsulate.org',  # Main website
-        'file': 'consulates/washington-state.md',
+        'file': 'consulates/united-states/washington-state.md',
         'selectors': {
             'address': {'pattern': r'(?:\d+[A-Za-z\s,]+(?:Suite|St|Ave|Way)[A-Za-z\s,]+)?(?:Redmond|Bellevue|Seattle)[A-Za-z\s,]+(?:WA|Washington)\s+\d{5}'},
             'phone': {'pattern': r'(?:Phone|Tel|Contact)?\s*:?\s*(?:\+1|1-)?\s*(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}'},
@@ -11,7 +11,7 @@ CONSULATES = {
     },
     'boston': {
         'url': 'https://www.nepalembassy.org/cgboston',  # Updated URL
-        'file': 'consulates/boston.md',
+        'file': 'consulates/united-states/boston.md',
         'selectors': {
             'address': {'pattern': r'(?:Boston|Massachusetts).*\d{5}'},
             'phone': {'pattern': r'(?:\+1|1-)?\s*\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}'},
@@ -20,12 +20,22 @@ CONSULATES = {
         }
     },
     'new-york': {
-        'url': 'https://www.nepalembassy.org/cgnewyork',  # Updated URL
-        'file': 'consulates/new-york.md',
+        'url': 'https://nyc.nepalconsulate.gov.np',
+        'file': 'consulates/united-states/new-york.md',
         'selectors': {
             'address': {'pattern': r'(?:New\s*York|NY).*\d{5}'},
             'phone': {'pattern': r'(?:\+1|1-)?\s*\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}'},
             'email': {'pattern': r'[\w\.-]+@(?:nepalconsulate\.org|mofa\.gov\.np)'},
+            'hours': {'pattern': r'(?i)(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday).*(?:am|pm)'}
+        }
+    },
+    'dallas': {
+        'url': 'https://dls.nepalconsulate.gov.np',
+        'file': 'consulates/united-states/dallas.md',
+        'selectors': {
+            'address': {'pattern': r'(?:Dallas|Texas|TX).*\d{5}'},
+            'phone': {'pattern': r'(?:\+1|1-)?\s*\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}'},
+            'email': {'pattern': r'[\w\.-]+@nepalconsulatedallas\.org'},
             'hours': {'pattern': r'(?i)(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday).*(?:am|pm)'}
         }
     }

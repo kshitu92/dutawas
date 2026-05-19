@@ -8,14 +8,29 @@ Dutawas serves as a centralized platform for Nepali citizens and visitors to acc
 
 ## Development Setup
 
+Prerequisites:
+
+- Ruby 3.3.x (see [.ruby-version](.ruby-version))
+- Bundler 2.x
+
 1. Clone the repository `git clone git@github.com:kshitu92/dutawas.git`
-2. Then either `make serve`  or `bundle exec jekyll serve`
+2. Install Bundler for your active Ruby: `gem install bundler`
+3. Install dependencies: `bundle install`
+4. Start the site: `make serve` or `bundle exec jekyll serve`
 
 ## Like my effort ?
 
 If you want to buy me a coffee/momo; 
 
 <a href="https://www.buymeacoffee.com/kshitu92" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
+## Contributors
+
+This section updates automatically from the repository contributors list on GitHub.
+
+<a href="https://github.com/kshitu92/dutawas/graphs/contributors">
+	<img src="https://contrib.rocks/image?repo=kshitu92/dutawas" alt="Project contributors" />
+</a>
 
 
 ## License

@@ -6,7 +6,6 @@ import os
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
-import time
 from github import Github
 import re
 import logging
@@ -46,15 +45,16 @@ def update_file_content(content, changes, current_date):
 
 def add_verification_timestamp(content, current_date):
     """Add or update 'Information last verified on:' timestamp in markdown file"""
-    verification_line = f"*Information last verified on: {current_date} via automated monitoring*\n"
+    verification_line = f"*Information last verified on: {current_date} via automated monitoring*"
     
-    # Check if verification line already exists
-    if "**Information last verified on:**" in content:
+    # Check if verification line already exists (match italic format used in pages)
+    if re.search(r"^\*Information last verified on:", content, re.MULTILINE):
         # Update existing verification line
         updated = re.sub(
-            r"> \*\*Information last verified on:\*\*.*?\n",
+            r"^\*Information last verified on:.*\*$",
             verification_line,
-            content
+            content,
+            flags=re.MULTILINE
         )
         return updated
     else:
@@ -67,7 +67,7 @@ def add_verification_timestamp(content, current_date):
                 break
         
         lines.insert(insert_index, "")
-        lines.insert(insert_index + 1, verification_line.strip())
+        lines.insert(insert_index + 1, verification_line)
         return '\n'.join(lines)
 
 def main():
@@ -83,8 +83,9 @@ def main():
         
         g = Github(github_token)
         repo = g.get_repo(repository)
-        tz_name = time.tzname[0] if time.daylight == 0 else time.tzname[1]
-        current_date = datetime.now().strftime(f"%B %d, %Y at %I:%M %p {tz_name}")
+        now = datetime.now().astimezone()
+        tz_name = now.strftime('%Z')
+        current_date = now.strftime(f"%-d %B, %Y at %I:%M %p {tz_name}")
         
         for consulate_id, info in CONSULATES.items():
             logger.info(f"Checking {consulate_id}")

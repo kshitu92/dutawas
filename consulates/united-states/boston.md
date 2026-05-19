@@ -2,14 +2,14 @@
 title: Boston
 layout: default
 nav_order: 3
-parent: Consulates
+parent: United States
 permalink: /consulates/boston/
 ---
 # Consulate General of Nepal — Boston
 
 *Information last verified on: March 15, 2026 at 12:05 AM CDT via automated monitoring*
 
-> **Note (as of March 2026):** There is currently no established Consulate General of Nepal in Boston. Massachusetts residents should contact the **[Consulate General of Nepal in New York](/consulates/new-york/)**, which has jurisdiction over Massachusetts.
+> **Note (as of May 2026):** There is currently no established Consulate General of Nepal in Boston. Massachusetts residents should contact the **[Consulate General of Nepal in New York](/consulates/new-york/)**, which has jurisdiction over Massachusetts.
 
 ## Jurisdiction
 
@@ -26,7 +26,9 @@ Website: [nyc.nepalconsulate.gov.np](https://nyc.nepalconsulate.gov.np)
 
 The New York consulate also holds periodic **Consular Service Camps** in New England states, including New Hampshire and Connecticut. Check the [New York consulate website](https://nyc.nepalconsulate.gov.np) for upcoming camp dates.
 
+For e-passport applications, Massachusetts residents should use the official passport portal and select **NPM New York** as the appointment location.
+
 ## Sources
 
-- [Consulate General of Nepal, New York — e-Passport page](https://nyc.nepalconsulate.gov.np/pages/e-passport-1)
-- [Consulate General of Nepal, New York Official Website](https://nyc.nepalconsulate.gov.np)
+- [Consulate General of Nepal, New York — e-Passport page](https://nyc.nepalconsulate.gov.np/pages/e-passport-1) — jurisdiction states confirmed: May 2026
+- [Consulate General of Nepal, New York Official Website](https://nyc.nepalconsulate.gov.np) — Last checked: May 2026
